@@ -1,0 +1,7 @@
+database.ini
+__pycache__/
+.idea/
+.vscode/
+.env
+test.py
+table_iterator.py
