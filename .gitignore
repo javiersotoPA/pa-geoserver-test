@@ -6,3 +6,4 @@ __pycache__/
 test.py
 table_iterator.py
 geosolutions/
+postgis_geoserver/docker-geoserver/.git
