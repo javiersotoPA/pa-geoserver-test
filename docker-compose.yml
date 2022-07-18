@@ -1,4 +1,5 @@
 version: "3.9"  # optional since v1.27.0
+
 services:
   db:
     # postgis image name
@@ -10,7 +11,7 @@ services:
       - postgis-data:/var/lib/postgresql
       # test data to be loaded on startup of container
       # this can be replaced or added to with another sql dump, just enter a new line and copy the syntax below and replace test_data.sql
-      - ./test_data_javi.sql:/docker-entrypoint-initdb.d/test_data_javi.sql
+      - ./site_level_information_grouped.sql:/docker-entrypoint-initdb.d/site_level_information_grouped.sql
     environment:
       # generic postgres environment variables from .env file
       - POSTGRES_DB=${POSTGRES_DB}
@@ -30,6 +31,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
 
 volumes:
   postgis-data:
