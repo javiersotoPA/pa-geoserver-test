@@ -7,3 +7,4 @@ test.py
 table_iterator.py
 geosolutions/
 postgis_geoserver/docker-geoserver/.git
+postgis_geoserver/docker-geoserver/.env
