@@ -1,3 +1,5 @@
+### WORKING
+
 version: '3.9'
 
 volumes:
@@ -5,7 +7,7 @@ volumes:
    geo-db-data:
 
 services:
-   db:
+   db:  # this is the host name also when connecting to geoserver
       image: kartoza/postgis:${POSTGIS_VERSION_TAG}
       volumes:
         - geo-db-data:/var/lib/postgresql
@@ -23,7 +25,7 @@ services:
       healthcheck:
         test: ["CMD-SHELL", "pg_isready -U postgres"]
 
-   geoserver:
+   geoserver:  # when adding store, use SSL ALLOW mode
       image: kartoza/geoserver:${GS_VERSION}
       volumes:
         - geoserver-data:/opt/geoserver/data_dir
@@ -57,3 +59,4 @@ services:
        - geoserver
      ports:
        - "80:80"
+
