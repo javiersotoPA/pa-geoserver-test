@@ -6,5 +6,5 @@ __pycache__/
 test.py
 table_iterator.py
 geosolutions/
-test_data.sql
+kartoza_postgis_geoserver/test_data.sql
 
