@@ -11,7 +11,7 @@ services:
       image: kartoza/postgis:${POSTGIS_VERSION_TAG}
       volumes:
         - geo-db-data:/var/lib/postgresql
-        - ./site_level_info.sql:/docker-entrypoint-initdb.d/site_level_info.sql
+        - ./site_summary_grant_id_ha.sql:/docker-entrypoint-initdb.d/site_summary_grant_id_ha.sql
       ports:
         - ${POSTGRES_PORT}:5432
       environment:
