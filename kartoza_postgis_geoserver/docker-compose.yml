@@ -1,39 +1,56 @@
+### WORKING
+
 version: '3.9'
 
-volumes:
-   geoserver-data:
-   geo-db-data:
-
 networks:
-    backend:
+   caddy:
+
+volumes:
+    geoserver-data:
+    geo-db-data:
+    caddy_data:
+      external: true
+    caddy_config:
+    settings:
 
 services:
-   db:
-      image: kartoza/postgis:14-3.2
+   db:  # this is the host name also when connecting to geoserver
+      image: kartoza/postgis:${POSTGIS_VERSION_TAG}
       volumes:
-        - geo-db-data:/var/lib/postgresql
-        - ./site_level_info.sql:/docker-entrypoint-initdb.d/site_level_info.sql
-      #ports:
-      #  - 5432:5432
+        - ./geo-db-data:/var/lib/postgresql
+        - ./site_summary_grant_id_ha.sql:/docker-entrypoint-initdb.d/site_summary_grant_id_ha.sql
+      ports:
+        - ${POSTGRES_PORT}:5432
       environment:
-        - POSTGRES_DB=gis
-        - POSTGRES_USER=docker
-        - POSTGRES_PASS=docker
-        - ALLOW_IP_RANGE=0.0.0.0/0
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASS=${POSTGRES_PASS}
+        - ALLOW_IP_RANGE=${ALLOW_IP_RANGE}
+        - FORCE_SSL=TRUE
         - POSTGRES_MULTIPLE_EXTENSIONS=postgis,postgis_topology
-      network_mode: "host"
-      #networks:   ## network added by joe, solution did not work for me. I added network mode instead
-      #      - backend
       restart: on-failure
       healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      networks:
+        - caddy
 
    geoserver:
-      image: kartoza/geoserver:latest
+      image: kartoza/geoserver:${GS_VERSION}
+      build:
+        context: .
+        args:
+          IMAGE_VERSION: ${IMAGE_VERSION}
+          JAVA_HOME: ${JAVA_HOME}
+          GS_VERSION: ${GS_VERSION}
+          WAR_URL: ${WAR_URL}
+          DOWNLOAD_ALL_STABLE_EXTENSIONS: ${DOWNLOAD_ALL_STABLE_EXTENSIONS}
+          DOWNLOAD_ALL_COMMUNITY_EXTENSIONS: ${DOWNLOAD_ALL_COMMUNITY_EXTENSIONS}
+          STABLE_PLUGIN_BASE_URL: ${STABLE_PLUGIN_BASE_URL}
       volumes:
         - geoserver-data:/opt/geoserver/data_dir
-      #ports:
-      #  - 8080:8080
+        - settings:/settings
+      ports:
+        - ${GEOSERVER_PORT}:8080
       restart: on-failure
       environment:
         - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
@@ -42,14 +59,29 @@ services:
         - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
         - INITIAL_MEMORY=${INITIAL_MEMORY}
         - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
-      network_mode: "host"
-      #networks:   ## network added by joe, solution did not work for me. I added network mode instead
-      #  - backend
-      depends_on:
-        db:
-          condition: service_healthy
+        - RECREATE_DATADIR=${RECREATE_DATADIR}
+        - STABLE_EXTENSIONS=${STABLE_EXTENSIONS}
+        - COMMUNITY_EXTENSIONS=${COMMUNITY_EXTENSIONS}
+        # this is needed to allow for form submissions that don't originate from geoserver such as through a proxyserver 
+        - GEOSERVER_CSRF_WHITELIST=${URL_NAME}
       healthcheck:
-        test: curl --fail -s http://localhost:8080/ || exit 1
-        interval: 1m30s
+        test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null -u ${GEOSERVER_ADMIN_USER}:'${GEOSERVER_ADMIN_PASSWORD}' http://localhost:8080/geoserver/rest/about/version.xml"
+        interval: 1m
         timeout: 10s
         retries: 3
+      networks:
+        - caddy
+   caddy:
+      image: caddy:latest
+      restart: unless-stopped
+      container_name: caddy
+      ports:
+        - 80:80
+        - 443:443
+      volumes:
+        - /home/ubuntu/pa-geoserver-test/kartoza_postgis_geoserver/caddy/Caddyfile:/etc/caddy/Caddyfile
+        - /home/ubuntu/pa-geoserver-test/kartoza_postgis_geoserver/caddy/site:/srv
+        - /home/ubuntu/pa-geoserver-test/kartoza_postgis_geoserver/caddy/caddy_data:/data
+        - /home/ubuntu/pa-geoserver-test/kartoza_postgis_geoserver/caddy/caddy_config:/config
+      networks:
+        - caddy

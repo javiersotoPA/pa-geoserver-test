@@ -1,0 +1,8 @@
+{
+	"sans": [
+		"ec2-3-8-234-113.eu-west-2.compute.amazonaws.com"
+	],
+	"issuer_data": {
+		"url": "https://acme.zerossl.com/v2/DV90/cert/3JLsa26chYjmbkMkUsvpGw"
+	}
+}

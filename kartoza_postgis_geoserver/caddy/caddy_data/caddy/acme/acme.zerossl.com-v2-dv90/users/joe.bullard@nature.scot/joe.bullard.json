@@ -1,0 +1,14 @@
+{
+	"status": "valid",
+	"contact": [
+		"mailto:joe.bullard@nature.scot"
+	],
+	"termsOfServiceAgreed": true,
+	"externalAccountBinding": {
+		"protected": "eyJhbGciOiJIUzI1NiIsImtpZCI6ImQ1Nzh0dkl2b2oxTTZKRzd6OTd1NGciLCJ1cmwiOiJodHRwczovL2FjbWUuemVyb3NzbC5jb20vdjIvRFY5MC9uZXdBY2NvdW50In0",
+		"payload": "eyJjcnYiOiJQLTI1NiIsImt0eSI6IkVDIiwieCI6IndGQ3BPTU81QlNYeWRQQUxQWFJCN3hQYmtmbElTeXR2bWJGMWl1NjNGTW8iLCJ5IjoiU1pRdWgzREhPWlQtbXhWRl9IZUdzelhDZjNxaXMzTElpZWczZ1BRUkUzWSJ9",
+		"signature": "9Touha_WnntGLBeFo2hifT8b4ZkI5NR1KVbz53V0Jc4"
+	},
+	"orders": "https://acme.zerossl.com/v2/DV90/account/d578tvIvoj1M6JG7z97u4g/orders",
+	"location": "https://acme.zerossl.com/v2/DV90/account/d578tvIvoj1M6JG7z97u4g"
+}

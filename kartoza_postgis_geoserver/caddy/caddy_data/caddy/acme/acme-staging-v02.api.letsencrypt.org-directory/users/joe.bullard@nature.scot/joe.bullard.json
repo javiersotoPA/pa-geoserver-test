@@ -1,0 +1,9 @@
+{
+	"status": "valid",
+	"contact": [
+		"mailto:joe.bullard@nature.scot"
+	],
+	"termsOfServiceAgreed": true,
+	"orders": "",
+	"location": "https://acme-staging-v02.api.letsencrypt.org/acme/acct/80441333"
+}

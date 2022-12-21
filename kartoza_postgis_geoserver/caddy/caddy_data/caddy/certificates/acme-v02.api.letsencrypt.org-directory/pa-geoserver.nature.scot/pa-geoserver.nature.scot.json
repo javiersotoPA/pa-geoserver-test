@@ -1,0 +1,8 @@
+{
+	"sans": [
+		"pa-geoserver.nature.scot"
+	],
+	"issuer_data": {
+		"url": "https://acme-v02.api.letsencrypt.org/acme/cert/045365d50ed887f7c4a7efd9460cf3ac6a10"
+	}
+}

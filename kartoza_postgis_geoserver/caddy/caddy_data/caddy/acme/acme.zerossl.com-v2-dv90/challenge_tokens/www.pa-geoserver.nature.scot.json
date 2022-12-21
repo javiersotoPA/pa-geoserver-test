@@ -1,0 +1,1 @@
+{"type":"http-01","url":"https://acme.zerossl.com/v2/DV90/chall/Psgue6gqgA3jeA_pzmDDCA","status":"pending","token":"ZBRvjAzaHuIgw8EP6P488u0laAeF4yPhDn0gNBoXVd0","keyAuthorization":"ZBRvjAzaHuIgw8EP6P488u0laAeF4yPhDn0gNBoXVd0.rSJaNmiT6kYQ2oY8pr_w7LzxGZPCRsfIreD3GThzeF4","identifier":{"type":"dns","value":"www.pa-geoserver.nature.scot"}}
