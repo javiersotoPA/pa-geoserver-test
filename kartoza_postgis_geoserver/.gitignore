@@ -10,3 +10,6 @@ btsync-media.env
 btsync-db.env 
 geoserver-data
 test_data.sql
+.env
+caddy/caddy_config/
+caddy/caddy_data/
