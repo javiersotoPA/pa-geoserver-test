@@ -4723,4 +4723,9 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <context-param>
+        <param-name>GEOSERVER_CSRF_WHITELIST</param-name>
+        <param-value>https://ec2-3-8-234-113.eu-west-2.compute.amazonaws.com</param-value>
+    </context-param>
+
 </web-app>
